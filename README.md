@@ -98,8 +98,8 @@ foreach ($rows as $row) {
 ```php
 $row = [
     'id' => 1,
-    'username' => 'bob',
-    'email' => 'bob2@example.com'
+    'username' => 'tio',
+    'email' => 'tio@ganteng.com'
 ];
 $sql = "UPDATE users SET username=:username, email=:email WHERE id=:id;";
 $status = $pdo->prepare($sql)->execute($row);
