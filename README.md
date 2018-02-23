@@ -1,10 +1,10 @@
 # CRUD-PDO
 CRUD with PDO
-# Basic CRUD operations with PDO 
+# Basic CRUD Operasi dengan PDO 
 
 CRUD = Create, Read, Update, Delete
 
-## Open a database connection
+## Untuk file koneksi yang akan dikoneksikan ke database.
 
 ```php
 $host = '127.0.0.1';
@@ -25,7 +25,7 @@ $options = [
 $pdo = new PDO($dsn, $username, $password, $options);
 ```
 
-## Select a single row
+## Mengambil data row.
 
 ```php
 $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email AND status=:status LIMIT 1");
@@ -33,7 +33,7 @@ $stmt->execute(['email' => $email, 'status' => $status]);
 $user = $stmt->fetch();
 ```
 
-## Select multiple rows
+## Mengambil data multiple.
 
 With fetch for large results.
 
@@ -51,18 +51,18 @@ while ($row = $stmt->fetch()) {
 }
 ```
 
-With fetchAll for small results.
+## Dengan fetchAll.
 
 ```php
 $news = $pdo->query('SELECT * FROM news')->fetchAll();
 ```
 
-## Insert a single row
+## Memasukkan single data.
 
 ```php
 $row = [
-    'username' => 'bob',
-    'email' => 'bob@example.com'
+    'username' => 'tio',
+    'email' => 'tio@ganteng.com'
 ];
 $sql = "INSERT INTO users SET username=:username, email=:email;";
 $status = $pdo->prepare($sql)->execute($row);
@@ -73,17 +73,17 @@ if ($status) {
 }
 ```
 
-## Insert multiple rows
+## Memasukkan Data Multiple.
 
 ```php
 $rows = [];
 $rows[] = [
-    'username' => 'bob',
-    'email' => 'bob@example.com'
+    'username' => 'tio',
+    'email' => 'tio@ganteng.com'
 ];
 $rows[] = [
-    'username' => 'max',
-    'email' => 'max@example.com'
+    'username' => 'tioganteng',
+    'email' => 'tioganteng@max.com'
 ];
 
 $sql = "INSERT INTO users SET username=:username, email=:email;";
@@ -93,7 +93,7 @@ foreach ($rows as $row) {
 }
 ```
 
-## Update a single row
+## Update data.
 
 ```php
 $row = [
@@ -105,7 +105,7 @@ $sql = "UPDATE users SET username=:username, email=:email WHERE id=:id;";
 $status = $pdo->prepare($sql)->execute($row);
 ```
 
-## Update multiple rows
+## Update multiple data.
 
 ```php
 $row = [
@@ -117,14 +117,14 @@ $pdo->prepare($sql)->execute($row);
 $affected = $pdo->rowCount();
 ```
 
-## Delete a single row
+## Delete data
 
 ```php
 $where = ['id' => 1];
 $pdo->prepare("DELETE FROM users WHERE id=:id")->execute($where);
 ```
 
-## Delete multiple rows
+## Delete multiple data
 
 ```php
 $pdo->prepare("DELETE FROM users")->execute();
@@ -132,8 +132,8 @@ $pdo->prepare("DELETE FROM users")->execute();
 
 ## PDO datatypes
 
-Getting dynamic (POST) data with null values can be difficult to handle with PDO. 
-Here is a helper function to detect the correct data type.
+Mendapatkan data dinamis (POST) dengan nilai null bisa sulit ditangani dengan PDO.
+Berikut adalah fungsi pembantu untuk mendeteksi tipe data yang benar.
 
 ```php
 function get_pdo_type($value)
@@ -164,12 +164,9 @@ $stmt->bindValue(':email', $email, get_pdo_type($email));
 $stmt->execute();
 ```
 
-## Prepared statements using the IN clause
+## Prepared statements dengan IN klause
 
-It cannot be done with PDO, according to the PHP Manual's entry on PDO::prepare(), which says:
-"You cannot bind multiple values to a single named parameter in, for example, the IN() clause of an SQL statement."
-
-This PDO helper function converts all array values into a (safe) quoted string. 
+Fungsi pembantu PDO ini mengubah semua nilai array menjadi string yang dikutip (aman).
 
 ```php
 function quote_values(PDO $pdo, array $values) {
